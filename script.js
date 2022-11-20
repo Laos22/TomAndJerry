@@ -2,17 +2,23 @@
 let board = document.querySelector(".board");
 let cursor = document.querySelector(".cursor");
 let holesList = [];
-let gridBoard = 3;
+let gridBoard = 4;
 let countHole = gridBoard * gridBoard;
 let sizeHole = board.offsetHeight / gridBoard * 0.85;
-let frequencySpike = 1;
+let frequencySpike = 2;
+let updateAnim = 100;
+let updateMove = 50;
+let score = 0;
+let scoreBoard = document.querySelector(".score");
+let countLifes = 3;
 
 //---------------- Выполнение программы
 
 
 fillBoard(countHole);
 startTimer(10);
-addJerry();
+createLifes();
+addEnemy();
 
 
 
@@ -30,12 +36,18 @@ addJerry();
 // -------------------------------------------- ФУНКЦИИ -------------------------------------------
 // ------------------------------------------------------------------------------------------------
 
+// ==================================================================== Проверка на попадание
+
+
+
+
 //-- Функция заполняет поле количеством отверстий
 function fillBoard (countHole) {
     holesList = [];
     for(let i = 0; i < countHole; i++) {
         let hole = document.createElement("div");
         hole.className = "hole";
+        hole.id = "";
         hole.style.width = sizeHole + "px";
         hole.style.height = sizeHole + "px";
         board.appendChild(hole);
@@ -45,114 +57,148 @@ function fillBoard (countHole) {
 //========================================================================== Функция выбора цели (Джери или Спайк)
 function addEnemy() {
     let randomX = random(1,frequencySpike);
-    console.log(randomX);
+    // console.log(randomX);
     if (randomX == frequencySpike) addSpike();
     else addJerry();
 }
 
 //========================================================================== Функция добавления Спайки
 function addSpike() {
-    let spike = document.querySelector("#spike");
+    let spike = document.createElement("img");
+    spike.id = "spike";
+    spike.src = "img/spike_1.png";
+    spike.draggable = false;
     let x = random(0, countHole - 1);
     holesList[x].appendChild(spike);
-    spike.style.display = "block";
-    animSpike();
+    animSpike(spike);
+    // holesList[x].id = "act";
+    // console.log(holesList[x].id);
+    spike.className = "act";
+
+    // console.dir(spike)
 }
 //========================================================================== Анимация движение Спайки
 //----- Анимация спайка лай
-function barkSpike() {
-    cnt = 1;
-    let interval4 = setInterval (function() {
-        spike.src = "img/spike_" + cnt++ +".png";
-        if (cnt > 2) cnt = 1;
-        if (posSpike >= spike.offsetWidth + 30) {
-            clearInterval(interval4);
-        }
-    }, 300);
+function barkSpike(spike) {
+    let interval4;
+    clearInterval(interval4);
+    cntSpike = 1;
+    interval4 = setInterval (function() {
+        spike.src = "img/spike_" + cntSpike++ +".png";
+        if (cntSpike > 2) cntSpike = 1;
+    }, updateAnim);
 }
-function moveSpikeUP() {
+function moveSpikeUP(spike) {
     let posSpike = spike.offsetWidth * - 1;
+    // console.log(posSpike);
     spike.style.marginLeft = posSpike + "px";
-    let interval3 = setInterval (function() {
+    let interval3;
+    clearInterval(interval3);
+    interval3 = setInterval (function() {
         spike.style.marginLeft = posSpike + "px";
-        posSpike += 5;
-        if (posSpike >= spike.offsetWidth + 30) {
+        posSpike += 7;
+        if (posSpike >= spike.offsetWidth) {
             clearInterval(interval3);
+            spike.className = "";
+            // document.getElementById('spike').parentNode.id = ""
+            // console.log(document.getElementById('spike').parentNode.id );
+            spike.remove();
             addEnemy();
         }
-    }, 50)
+    }, updateMove)
 }
 //----- Функция которая запускат анимацию и движение Спайка
-function animSpike() {
-    barkSpike();
-    moveSpikeUP();
+function animSpike(spike) {
+    barkSpike(spike);
+    moveSpikeUP(spike);
 }
 
 
 //========================================================================== Функция добавления Джери
 function addJerry() {
-    let jerry = document.querySelector("#jerry");
+    let jerry = document.createElement("img");
+    jerry.id = "jerry";
     let x = random(0, countHole - 1);
     holesList[x].appendChild(jerry);
-    if (random(1,2) == 1) animJerryLeft();      // Рандомно запускаем анимацию в разные стороны
-    else animJerryRight();
+    if (random(1,2) == 1) animJerryLeft(jerry);      // Рандомно запускаем анимацию в разные стороны
+    else animJerryRight(jerry);
+    jerry.src = "img/jeri_3_1.png";
+    jerry.draggable = false;
+    // holesList[x].id = "act";
+    jerry.className = "act"
+    // console.log(holesList[x].id);
+    // console.dir(jerry)
 
 }
 
 //========================================================================== Анимация движение Джери влево
 //----- Анимация бегающих ног влево
-function runJerryLeft() {
+function runJerryLeft(jerry) {
     cnt = 1;
     jerry.style.transform = "scale(1, 1)";
     let interval = setInterval (function() {
         jerry.src = "img/jeri_3_" + cnt++ +".png";
         if (cnt >= 11) cnt = 1;
-    }, 40);
+    }, updateAnim / 2.5);
 }
 //----- Движение картинки с анимацией влево
-function moveJerryLeft() {
-    let pos = jerry.offsetWidth;
-    jerry.style.marginLeft = pos + "px";
+function moveJerryLeft(jerry) {
+    let posL = jerry.offsetWidth;
+    // console.dir(jerry);
+    // console.log(posL);
+    
+    jerry.style.marginLeft = posL + "px";
     let interval2 = setInterval (function() {
-        jerry.style.marginLeft = pos + "px";
-        pos -= 9;
-        if (pos <= (jerry.offsetWidth * -1) - 30 ) {
+        jerry.style.marginLeft = posL + "px";
+        posL -= 5;
+        if (posL <= (jerry.offsetWidth * -1) - 30 ) {
             clearInterval(interval2);
-            addJerry();
+            // document.getElementById('jerry').parentNode.id = ""
+            // console.log(document.getElementById('jerry').parentNode.id );
+            jerry.className = "";
+            posL = jerry.offsetWidth;
+            jerry.remove();
+            addEnemy();
         }
-    }, 50)
+    }, updateMove)
 }
 //----- Функция которая запускат анимацию и движение влево
-function animJerryLeft() {
-    runJerryLeft();
-    moveJerryLeft();
+function animJerryLeft(jerry) {
+    runJerryLeft(jerry);
+    moveJerryLeft(jerry);
 }
 //----- Анимация бегающих ног вправо
-function runJerryRight() {
+function runJerryRight(jerry) {
     cnt = 1;
     jerry.style.transform = "scale(-1, 1)";
     let interval66 = setInterval (function() {
         jerry.src = "img/jeri_3_" + cnt++ +".png";
         if (cnt >= 11) cnt = 1;
-    }, 40);
+    }, updateAnim / 2.5);
 }
 //----- Движение картинки с анимацией вправо
-function moveJerryRight() {
+function moveJerryRight(jerry) {
     let pos = jerry.offsetWidth * - 1;
+    // console.log(pos);
     jerry.style.marginLeft = pos + "px";
     let interval2 = setInterval (function() {
         jerry.style.marginLeft = pos + "px";
-        pos += 9;
+        pos += 5;
         if (pos >= jerry.offsetWidth + 30) {
             clearInterval(interval2);
-            addJerry();
+            // document.getElementById('jerry').parentNode.id = ""
+            // console.log(document.getElementById('jerry').parentNode.id );
+            jerry.className = "";
+            pos = jerry.offsetWidth;
+            jerry.remove();
+            addEnemy();
         }
-    }, 50)
+    }, updateMove)
 }
 //----- Функция которая запускат анимацию и движение вправо
-function animJerryRight() {
-    runJerryRight();
-    moveJerryRight();
+function animJerryRight(jerry) {
+    runJerryRight(jerry);
+    moveJerryRight(jerry);
 }
 
 //============================================================================ Таймер отсчета времени
@@ -171,7 +217,7 @@ function startTimer (n) {
  }
  // =========================================================================== Жизни
  // переменная для жизней (количество жизней)
-countLifes = 5;
+
 
 // создаем функцию жизней
 function createLifes() {
@@ -179,20 +225,21 @@ function createLifes() {
 // очищать блок
     lifesBlock.innerHTML = "";
 // создаем счетчик
-    let count = 0;
+    let count = 1;
 // создаем цикл
-   while(count < countLifes){
+   while(count < countLifes + 1){
         let span = document.createElement("span");
         lifesBlock.appendChild(span);
         count = count + 1;
    }
-
  }
 // создаем функцию уменьшения жизней, кликнули на собаку
 function lifesDown() {
     countLifes = countLifes - 1;
     if (countLifes <= 0) {
-        endGame();
+        // endGame();
+        alert("Закончились жизни перезагрузка страницы");
+        location.reload();
     }
     createLifes();
 }
@@ -201,9 +248,26 @@ function lifesDown() {
 window.addEventListener('mousemove', e => {
     cursor.style.top = e.pageY + 'px'
     cursor.style.left = e.pageX + 'px'
+
 })
 window.addEventListener('mousedown', () => {
     cursor.classList.add('active')
+    let enemytemp = document.querySelector(".act");
+    enemytemp.addEventListener('click', () => {
+            if (enemytemp.id == "jerry") {
+                score ++;
+                scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            } else {
+                lifesDown();
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            }
+    })
+    
+
+   
 })
 window.addEventListener('mouseup', () => {
     cursor.classList.remove('active')
@@ -215,4 +279,5 @@ function random(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; 
   }
+
 
