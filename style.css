@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+img { pointer-events: none; }
+body {
+    width: 100%;
+    max-height: 1080px;
+    height: 100%;
+    position: relative;
+    position: fixed;
+    background-image: url(img/bg_1.jpeg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    /* background-position: bottom; */
+    cursor:none;
+}
+.goals {
+    display: none;
+}
+.space {
+    width: 420px;
+    height: 420px;
+}
+.start {
+    background-color: blue;
+    border: 1px solid;
+    position: absolute;
+    display: none;
+}
+.game_block {
+    width: 40%;
+    /* position: absolute; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    margin: 0 auto;
+}
+.title {
+width: 80%;
+height: auto;
+margin: auto;
+margin-top: 20px;
+margin-bottom: 50px;
+
+/* display: none; */
+/* background-image: url(img/tom_and_jery_4.png);
+background-size: cover; */
+}
+.title img {
+    width: 100%;
+}
+.info {
+    width: 80%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.info div {
+    width: 25%;
+    /* border: 1px solid; */
+    text-align: center;
+}
+.timer {
+    font-size: 20px;
+}
+.lifes span {
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
+    background: url(img/life.png);
+    background-size: cover;
+}
+.score{
+    width: 170px;
+    height: 30px;
+    padding: 5px 15px;
+    font-size: 26px;
+    color: #383939;
+    border: 2px solid;
+    border-color: #383939;
+    border-radius: 10px 20px;
+    background-color: #eed249;
+}
+.score p {
+    margin: 0;
+}
+
+.board {
+    width: 420px;
+    height: 420px;
+    margin: 0 auto;
+    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    padding: 2px;
+    border-radius: 10%;
+    
+}
+.hole {
+    width: 30%;
+    height: 30%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    box-sizing: border-box;
+    background-color: rgb(56, 57, 57);
+    box-shadow: 10px 0px 1px;
+    overflow: hidden;
+    display: flex;
+    /* justify-content: center; */
+    align-items: flex-end;
+   
+}
+#jerry {
+    height: 80%;
+    width: auto;
+}
+#spike {
+    height: auto;
+    width: 100%;
+    margin: 0 auto;
+}
+.cursor{
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    background-image: url('img/cursor3.png');
+    background-size: 100% 100%;
+    transform: translate(0%, -60%);
+    transition: transform .1s;
+    pointer-events: none;
+}
+.cursor.active{
+    transform: translate(0%, -60%) rotate(-60deg);
+}
+/* #goal1 {
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    background-image: url(img/jeri_3_1.png);
+    background-size: 80% auto;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    position: absolute;
+} */
