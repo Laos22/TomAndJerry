@@ -13,15 +13,25 @@ let endGame_block = document.querySelector(".endGame");
 let textLoose = document.querySelector(".textLoose");
 let gameWin = document.querySelector(".gameWin");
 let textWin = document.querySelector(".textWin");
+let intervalTimer;
+let btnSound = document.querySelector(".sound");
+let img_sound = document.querySelector(".img_sound")
+let timeSec = 15;
+
+
+
+var audio = new Audio(); // Создаём новый элемент Audio
+    audio.src = 'sound/main.mp3'; // Указываем путь к звуку "клика"
+    audio.volume = 0.3;
 
 
 let holesList = [];
-let gridBoard = 3;
+let gridBoard = 4;
 let countHole = gridBoard * gridBoard;
 let sizeHole = 420 / gridBoard * 0.85;
-let frequencySpike = 2;
+let frequencySpike = 3;
 let updateAnim = 100;
-let updateMove = 50;
+let updateMove = 45;
 let score = 0;
 let scoreBoard = document.querySelector(".score");
 let countLifes = 3;
@@ -36,6 +46,19 @@ btnRestart.onclick = function() {
 btnRestart2.onclick = function() {
     location.reload();
 }
+btnSound.onclick = function() {
+    if(!audio.paused) {
+        img_sound.src = "img/volume_off.png";
+        audio.pause()
+    }
+    else {
+        img_sound.src = "img/volume_on.png";
+        audio.play()
+    }
+}
+
+
+
 
 
 
@@ -54,12 +77,14 @@ function startGame() {
     startBoard.style.display = "none";
     game_block.style.display = "flex";
     fillBoard(countHole);
-    startTimer(5);
+    startTimer(timeSec);
     createLifes();
     addEnemy();
     cheekMouse();
     cursor.style.backgroundImage = "url('img/cursor3.png')";
     body.style.cursor = "none";
+    // img_sound.src = "img/volume_on.png";
+    // audio.play()
 }
 
 function endGame() {
@@ -67,7 +92,10 @@ function endGame() {
     endGame_block.style.display = "flex";
     cursor.style.backgroundImage = "none";
     body.style.cursor = "auto";
-    textLoose.innerHTML = "Вы проиграли!!! Ваш счет: " + score;
+    textLoose.innerHTML = "Програш. Ваш рахунок:  " + score;
+    clearInterval(intervalTimer);
+    img_sound.src = "img/volume_off.png";
+        audio.pause()
 }
 
 function winGame() {
@@ -75,7 +103,9 @@ function winGame() {
     gameWin.style.display = "flex";
     cursor.style.backgroundImage = "none";
     body.style.cursor = "auto";
-    textWin.innerHTML = "Вы выиграли!!! Ваш счет: " + score;
+    textWin.innerHTML = "Вітаємо!!! Ваш рахунок: " + score;
+    img_sound.src = "img/volume_off.png";
+        audio.pause()
 }
 
 
@@ -243,7 +273,7 @@ function animJerryRight(jerry) {
 function startTimer (n) {
     let timer = document.querySelector(".timer");
     let count = n;
-    setInterval(function() {
+    intervalTimer = setInterval(function() {
         timer.innerHTML = count + "";
         count--;
         if (count == -2) {
@@ -284,7 +314,6 @@ function lifesDown() {
 window.addEventListener('mousemove', e => {
     cursor.style.top = e.pageY + 'px'
     cursor.style.left = e.pageX + 'px'
-
 })
 
 let cheekMouse = function() {
@@ -294,7 +323,7 @@ let cheekMouse = function() {
         enemytemp.addEventListener('click', () => {
             if (enemytemp.id == "jerry") {
                 soundClickMouse();
-                score ++;
+                score += 10;
                 scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
                 enemytemp.className = "";
                 enemytemp.style.display = "none";
@@ -306,16 +335,11 @@ let cheekMouse = function() {
             }
         })
         soundClickEmpty()
-        
     })
 }
-
-
 window.addEventListener('mouseup', () => {
     cursor.classList.remove('active')
 })
-
-
 
 //============================================================================== Звуковое сопровождение
 //музыка
