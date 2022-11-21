@@ -281,3 +281,23 @@ function random(min, max) {
   }
 
 
+// ============================================================================ Аня - блок звук
+
+audioPlayer = document.querySelector("audio");
+console.dir(audioPlayer);
+
+sound = "off";
+
+soundButton = document.querySelector("#sound img");   			
+soundButton.onclick = function(){ 								
+	if (sound == "on"){ 										
+		soundButton.src = "img/volume_on.png"; 				
+		sound = "off"; 											
+		audioPlayer.pause(); 									
+
+	} else{ 													
+		soundButton.src = "img/volume_off.png"; 				
+		sound = "on"; 											
+		audioPlayer.play(); 									
+	}
+}

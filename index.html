@@ -8,28 +8,37 @@
     <title>GAME Tom and Jerry</title>
 </head>
 <body>
-    <div class="goals">
-        <!-- <img src="img/jeri_3_1.png" alt="" id="jerry"> -->
-        <!-- <img src="img/spike_1.png" alt="" id="spike"> -->
-    </div>
-    <div class="start space"></div>
-    <div class="game_block">
-        <div class="title"><img src="img/tom_and_jery_5.png" alt=""></div>
-        <div class="info">
-            <div class="lifes">
+    <div class="main">
+        <img class = "bg" src="img/bg_2.png" alt="">
+        <div class="conteiner">
+        <div class="goals">
+            <!-- <img src="img/jeri_3_1.png" alt="" id="jerry"> -->
+            <!-- <img src="img/spike_1.png" alt="" id="spike"> -->
+        </div>
+        <div class="start space"></div>
+        <div class="game_block">
+            <div class="title"><img src="img/tom_and_jery_5.png" alt=""></div>
+            <div class="info">
+                <div class="lifes">
+                </div>
+                <div class="timer">Таймер</div>
+                <div class="score">
+                    <p>Рахунок: 0</p>
+                </div>
+                <div class="sound">
+                    <img src="img/volume_on.png">
+                </div>
+            </body>
             </div>
-            <div class="timer">Таймер</div>
-            <div class="score">
-                <p>Рахунок: 0</p>
+            <div class="board">
+                <!-- Отверстия будут появляться с js -->
             </div>
         </div>
-        <div class="board">
-            <!-- Отверстия будут появляться с js -->
-        </div>
+        <div class="gameOver space"></div>
+        <div class="gameWin space"></div>
+        <div class="cursor"></div>
+        <script src="script.js"></script>
+    </div>                                              
     </div>
-    <div class="gameOver space"></div>
-    <div class="gameWin space"></div>
-    <div class="cursor"></div>
-    <script src="script.js"></script>
 </body>
 </html>
