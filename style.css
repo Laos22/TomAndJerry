@@ -11,8 +11,13 @@ body {
     background-image: url(img/bg_1.jpeg);
     background-repeat: no-repeat;
     background-size: 100% auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
     /* background-position: bottom; */
-    cursor:none;
+    /* cursor: none; */
+    
 }
 .goals {
     display: none;
@@ -22,10 +27,18 @@ body {
     height: 420px;
 }
 .start {
-    background-color: blue;
+    background-color: rgb(140, 213, 155);
     border: 1px solid;
-    position: absolute;
     display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 30px;
+    text-align: center;
+}
+.start button {
+    display: block;
 }
 .game_block {
     width: 40%;
@@ -36,6 +49,7 @@ body {
     align-items: center;
     user-select: none;
     margin: 0 auto;
+    display: none;
 }
 .title {
 width: 80%;
@@ -52,19 +66,20 @@ background-size: cover; */
     width: 100%;
 }
 .info {
-    width: 80%;
+    width: 50%;
     height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
 }
 .info div {
-    width: 25%;
+    width: 30%;
     /* border: 1px solid; */
     text-align: center;
 }
 .timer {
-    font-size: 20px;
+    font-size: 30px;
 }
 .lifes span {
     display: block;
@@ -93,7 +108,6 @@ background-size: cover; */
     width: 420px;
     height: 420px;
     margin: 0 auto;
-    display: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -131,12 +145,30 @@ background-size: cover; */
     position: absolute;
     top: 150px;
     left: 150px;
-    background-image: url('img/cursor3.png');
+    /* background-image: url('img/cursor3.png'); */
+    background-image: none;
     background-size: 100% 100%;
-    transform: translate(0%, -60%);
+    transform: translate(0%, -30%);
     transition: transform .1s;
     pointer-events: none;
+    display: block;
 }
 .cursor.active{
     transform: translate(0%, -60%) rotate(-60deg);
+}
+.endGame{
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    display: none;
+}
+.gameWin{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    display: none;
 }
