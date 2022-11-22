@@ -1,35 +1,41 @@
-// -------------------------------------------ПЕРЕМЕННЫЕ
-let board = document.querySelector(".board");
-let cursor = document.querySelector(".cursor");
-let info = document.querySelector(".info");
-let startBoard = document.querySelector(".start");
-let body = document.querySelector("body");
-let title = document.querySelector("title");
-let btnStart = document.querySelector("#btnStart");
-let btnRestart = document.querySelector(".btnRestart");
-let btnRestart2 = document.querySelector(".btnRestart2");
-let game_block = document.querySelector(".game_block");
-let endGame_block = document.querySelector(".endGame");
-let textLoose = document.querySelector(".textLoose");
-let gameWin = document.querySelector(".gameWin");
-let textWin = document.querySelector(".textWin");
-let intervalTimer;
-let btnSound = document.querySelector(".sound");
-let img_sound = document.querySelector(".img_sound")
-let timeSec = 15;
-var audio = new Audio(); 
+//============================================ ПЕРЕМЕННЫЕ =============================================
+//=====================================================================================================
+
+//------------- Блок настроек ---------------
+let gridBoard = 4;          // размер сетки игрового поля
+let frequencySpike = 3;     // частота появления спайки
+let updateMove = 45;        // скрость движения героев (частота перемещения картинки)
+let countLifes = 3;         // Кол-во жизней
+let timeSec = 15;           // Установка таймера игры
+
+//------------- Вспомогательные ---------------
+let board = document.querySelector(".board");               // Игровое поле
+let cursor = document.querySelector(".cursor");             // Картинка курсора при активации игры
+let info = document.querySelector(".info");                 // Информационный блок
+let intervalTimer;                                          // Интервал который работает в таймере
+let score = 0;                                              // счетчик для блока очков
+let scoreBoard = document.querySelector(".score");          // Блок для очков
+let btnSound = document.querySelector(".sound");            // Кнопка звука
+let img_sound = document.querySelector(".img_sound")        // Иконка кнопки звука
+var audio = new Audio();                                    // Звуковой файл фоновой музыки
     audio.src = 'sound/main.mp3'; 
     audio.volume = 0.3;
-let holesList = [];
-let gridBoard = 4;
-let countHole = gridBoard * gridBoard;
-let sizeHole = 420 / gridBoard * 0.85;
-let frequencySpike = 3;
-let updateAnim = 100;
-let updateMove = 45;
-let score = 0;
-let scoreBoard = document.querySelector(".score");
-let countLifes = 3;
+let startBoard = document.querySelector(".start");          // Блок старта
+let body = document.querySelector("body");                  // Тело страницы
+let title = document.querySelector("title");                // Лого во время игрового процесса
+let btnStart = document.querySelector("#btnStart");         // Кнопка старта
+let btnRestart = document.querySelector(".btnRestart");     // Кнопка рестарта при проиграше
+let btnRestart2 = document.querySelector(".btnRestart2");   // Кнопка рестарта при выиграше
+let game_block = document.querySelector(".game_block");     // Общий блок при игровом процессе (лого инфо блок и игровое поле)
+let endGame_block = document.querySelector(".endGame");     // Блок окончания инры при проиграше
+let textLoose = document.querySelector(".textLoose");       // Текст блока при проиграше
+let gameWin = document.querySelector(".gameWin");           // Блок окончания инры при выиграше
+let textWin = document.querySelector(".textWin");           // Текст блока при выиграш
+let holesList = [];                                         // масив для отверстий в игровом поле
+let countHole = gridBoard * gridBoard;                      // количество отверстий
+let sizeHole = 420 / gridBoard * 0.85;                      // автоматически расчитываем размер каждого отверстия при изминение размера сетки
+let updateAnim = 100;                                       // частота для анимации героев
+
 
 //============================================ СОБЫТИЯ ================================================
 //=====================================================================================================
@@ -53,39 +59,10 @@ btnSound.onclick = function() {
     }
 }
 
-//========================= Вид курсора и дейсвия при нажатии на левую кнопку мыши
-let cheekMouse = function() {
-    window.addEventListener('mousedown', () => {
-        cursor.classList.add('active')
-        let enemytemp = document.querySelector(".act");
-        enemytemp.addEventListener('click', () => {
-            if (enemytemp.id == "jerry") {
-                soundClickMouse();
-                score += 10;
-                scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
-                enemytemp.className = "";
-                enemytemp.style.display = "none";
-            } else if (enemytemp.id == "spike") {
-                soundClickDog();
-                lifesDown();
-                enemytemp.className = "";
-                enemytemp.style.display = "none";
-            }
-        })
-        soundClickEmpty()
-    })
-}
-window.addEventListener('mousemove', e => {
-    cursor.style.top = e.pageY + 'px'
-    cursor.style.left = e.pageX + 'px'
-})
-window.addEventListener('mouseup', () => {
-    cursor.classList.remove('active')
-})
-
 //============================================ ФУНКЦИИ ================================================
 //=====================================================================================================
 
+//========================= Функции при старте и окончании игры
 
 // ------------------------------------ Запуск игры
 function startGame() {
@@ -138,6 +115,36 @@ function fillBoard (countHole) {
         holesList.push(hole);
     }
 }
+//========================= Вид курсора и дейсвия при нажатии на левую кнопку мыши
+function cheekMouse() {
+    window.addEventListener('mousedown', () => {
+        cursor.classList.add('active')
+        let enemytemp = document.querySelector(".act");
+        enemytemp.addEventListener('click', () => {
+            if (enemytemp.id == "jerry") {
+                soundClickMouse();
+                score += 10;
+                scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            } else if (enemytemp.id == "spike") {
+                soundClickDog();
+                lifesDown();
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            }
+        })
+        soundClickEmpty()
+    })
+    window.addEventListener('mousemove', e => {
+        cursor.style.top = e.pageY + 'px'
+        cursor.style.left = e.pageX + 'px'
+    })
+    window.addEventListener('mouseup', () => {
+        cursor.classList.remove('active')
+    })
+}
+
 //===================================================== Функция выбора цели (Джери или Спайк)
 function addEnemy() {
     let randomX = random(1,frequencySpike);
