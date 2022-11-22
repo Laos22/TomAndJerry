@@ -11,43 +11,47 @@
     <title>GAME Tom and Jerry</title>
 </head>
 <body>
-    <div class="start space">
-        <img src="img/tom_and_jery_8.png" alt="" class="startLogo">
-        <div class="textStart">
-           Спробуй завадити Jerry викрасти весь сир. Але будь уважним, поруч бігає злий Spike!!!
-        </div>
-        <button id="btnStart">
-            СТАРТ
-        </button>
-    </div>
-    <div class="game_block">
-        <div class="title"><img src="img/tom_and_jery_5.png" alt=""></div>
-        <div class="info">
-            <div class="lifes">
+    <div class="conteiner">
+        <img src="img/chese_bg.png" alt="" class="bg1">
+        <div class="start space">
+            <img src="img/tom_and_jery_8.png" alt="" class="startLogo">
+            <div class="textStart">
+               Спробуй завадити Jerry викрасти весь сир. Але будь уважним, поруч бігає злий Spike!!!
             </div>
-            <div class="timer"></div>
-            <div class="score">
-                <p>Рахунок: 0</p>
+            <button id="btnStart">
+                СТАРТ
+            </button>
+        </div>
+        <div class="game_block">
+            <div class="title"><img src="img/tom_and_jery_5.png" alt=""></div>
+            <div class="info">
+                <div class="lifes">
+                </div>
+                <div class="timer"></div>
+                <div class="score">
+                    <p>Рахунок: 0</p>
+                </div>
+                <button class="sound"><img src="img/volume_on.png" alt="" class="img_sound"></button>
             </div>
-            <button class="sound"><img src="img/volume_on.png" alt="" class="img_sound"></button>
+            <div class="board">
+                <!-- Отверстия будут появляться с js -->
+            </div>
         </div>
-        <div class="board">
-            <!-- Отверстия будут появляться с js -->
+        <div class="endGame space">
+            <img src="img/tom_2.png" alt="">
+            <div class="textLoose">Вы проиграли</div>
+            <button class="btnRestart">
+                Грати знову
+            </button>
         </div>
-    </div>
-    <div class="endGame space">
-        <img src="img/tom_2.png" alt="">
-        <div class="textLoose">Вы проиграли</div>
-        <button class="btnRestart">
-            Грати знову
-        </button>
-    </div>
-    <div class="gameWin space">
-        <img src="img/tomANDJerry.png" alt="">
-        <div class="textWin">Вы выиграли!!!</div>
-        <button class="btnRestart2">
-            Грати знову
-        </button>
+        <div class="gameWin space">
+            <img src="img/tomANDJerry.png" alt="">
+            <div class="textWin">Вы выиграли!!!</div>
+            <button class="btnRestart2">
+                Грати знову
+            </button>
+        </div>
+        <img src="img/jerry_bg.png" alt="" class="bg2">
     </div>
     <div class="cursor"></div>
     <script src="script.js"></script>

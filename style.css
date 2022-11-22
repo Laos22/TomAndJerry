@@ -3,18 +3,24 @@
     padding: 0;
 }
 body {
+    
     width: 100%;
-    max-height: 1080px;
     height: 100%;
-    position: relative;
     position: fixed;
-    background-image: url(img/bg_1.jpeg);
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: 'Pacifico', cursive;
+    /* background-color:bisque; */
+    /* background-color: linear-gradient(to left, rgb(195, 14, 14) 100%); */
+    
+}
+.conteiner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    position: relative;
+    background: linear-gradient(to right, blue, pink);
 }
 
 /* Задаем размер и форму блоков начала и конц игры */
@@ -42,6 +48,7 @@ body {
     margin: 20px;
 }
 .start button, .btnRestart, .btnRestart2 {
+    width: 300px;
     background: #ffcc00;
     color: #0066cc;
     font-size: 3vmin;
@@ -71,17 +78,30 @@ body {
     transform: translate(1vmin, 1vmin);
     box-shadow: 0.2vmin 0.2vmin 2vmin #ffcc00;
 }
+/* -------------------------------- */
+.bg1 {
+    width: 25%;
+    margin-top: 30%;
+    margin-left: 100px;
+    
+}
+.bg2 {
+    width: 30%;
+    margin-left: 100px;
+    max-height: 100%;
+
+}
+
 
 /* -------------------------- Игровое пространство ------------------------------------ */
 .game_block {
-    width: 40%;
-    /* position: absolute; */
+    width: 30%;
+    min-width: 420px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     user-select: none;
-    margin: 0 auto;
     display: none;
 }
 /* Надпись с лого вверху */
@@ -218,4 +238,42 @@ margin-bottom: 50px;
 }
 .gameWin, .endGame button {
     font-size: 28px;
-} 
+}
+
+@media (max-width: 1200px) {
+    .bg1, .bg2 {
+        display: none;
+    }
+    .conteiner {
+        justify-content: center;
+    }
+    .game_block {
+        height: 100%;
+        justify-content: space-around;
+    }
+    .title {
+        margin: 0;
+    }
+    .start button, .btnRestart, .btnRestart2 {
+        width: 200px;
+        padding: 20px;
+    
+    }
+}
+@media (max-width: 767px) {
+    .board {
+        width: 410px;
+        height: 410px;
+        box-sizing: border-box;
+    }
+    .game_block {
+        width: 90%;
+        justify-content: start;
+    }
+}
+@media (max-width: 449px) {
+    .hole {
+        box-shadow: none;
+    }
+    
+}
