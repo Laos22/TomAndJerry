@@ -20,7 +20,7 @@ body {
     align-items: center;
     align-content: center;
     position: relative;
-    background: linear-gradient(to right, blue, pink);
+    background: linear-gradient(to right, rgb(125, 189, 56), pink);
 }
 
 /* Задаем размер и форму блоков начала и конц игры */
