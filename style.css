@@ -15,18 +15,16 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Pacifico', cursive;
-    /* background-position: bottom; */
-    /* cursor: none; */
-    
 }
-.goals {
-    display: none;
-}
+
+/* Задаем размер и форму блоков начала и конц игры */
 .space {
     width: 420px;
     height: 420px;
     border-radius: 20%;
 }
+
+/* -------------------------- Блок старт ------------------------------------ */
 .start {
     /* background-color: rgb(140, 213, 155); */
     display: flex;
@@ -69,10 +67,12 @@ body {
     border: 0.2vmin #0066cc;
     border-style: groove;
   }
-  .start button:active {
+.start button:active {
     transform: translate(1vmin, 1vmin);
     box-shadow: 0.2vmin 0.2vmin 2vmin #ffcc00;
-  }
+}
+
+/* -------------------------- Игровое пространство ------------------------------------ */
 .game_block {
     width: 40%;
     /* position: absolute; */
@@ -84,20 +84,18 @@ body {
     margin: 0 auto;
     display: none;
 }
+/* Надпись с лого вверху */
 .title {
 width: 80%;
 height: auto;
 margin: auto;
 margin-top: 20px;
 margin-bottom: 50px;
-
-/* display: none; */
-/* background-image: url(img/tom_and_jery_4.png);
-background-size: cover; */
 }
 .title img {
     width: 100%;
 }
+/* Информационный блок (жизни таймер очки и звук */
 .info {
     width: 420px;
     height: 50px;
@@ -152,6 +150,7 @@ background-size: cover; */
     background: none;
 }
 
+/* Игровое поле */
 .board {
     width: 420px;
     height: 420px;
@@ -205,6 +204,7 @@ background-size: cover; */
     transform: translate(0%, -60%) rotate(-60deg);
 }
 
+/* -------------------------- Блоки окончания игры ------------------------ */
 .gameWin, .endGame {
     font-size: 30px;
     display: flex;
@@ -215,4 +215,7 @@ background-size: cover; */
 }
 .gameWin img, .endGame img {
     width: 100%;
+}
+.gameWin, .endGame button {
+    font-size: 28px;
 } 

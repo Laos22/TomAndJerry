@@ -17,14 +17,9 @@ let intervalTimer;
 let btnSound = document.querySelector(".sound");
 let img_sound = document.querySelector(".img_sound")
 let timeSec = 15;
-
-
-
-var audio = new Audio(); // Создаём новый элемент Audio
-    audio.src = 'sound/main.mp3'; // Указываем путь к звуку "клика"
+var audio = new Audio(); 
+    audio.src = 'sound/main.mp3'; 
     audio.volume = 0.3;
-
-
 let holesList = [];
 let gridBoard = 4;
 let countHole = gridBoard * gridBoard;
@@ -36,7 +31,8 @@ let score = 0;
 let scoreBoard = document.querySelector(".score");
 let countLifes = 3;
 
-//---------------- Выполнение программы
+//============================================ СОБЫТИЯ ================================================
+//=====================================================================================================
 btnStart.onclick = function() {
     startGame();
 }
@@ -57,22 +53,41 @@ btnSound.onclick = function() {
     }
 }
 
+//========================= Вид курсора и дейсвия при нажатии на левую кнопку мыши
+let cheekMouse = function() {
+    window.addEventListener('mousedown', () => {
+        cursor.classList.add('active')
+        let enemytemp = document.querySelector(".act");
+        enemytemp.addEventListener('click', () => {
+            if (enemytemp.id == "jerry") {
+                soundClickMouse();
+                score += 10;
+                scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            } else if (enemytemp.id == "spike") {
+                soundClickDog();
+                lifesDown();
+                enemytemp.className = "";
+                enemytemp.style.display = "none";
+            }
+        })
+        soundClickEmpty()
+    })
+}
+window.addEventListener('mousemove', e => {
+    cursor.style.top = e.pageY + 'px'
+    cursor.style.left = e.pageX + 'px'
+})
+window.addEventListener('mouseup', () => {
+    cursor.classList.remove('active')
+})
+
+//============================================ ФУНКЦИИ ================================================
+//=====================================================================================================
 
 
-
-
-
-
-
-
-
-
-
-// -------------------------------------------- ФУНКЦИИ -------------------------------------------
-// ------------------------------------------------------------------------------------------------
-
-
-
+// ------------------------------------ Запуск игры
 function startGame() {
     startBoard.style.display = "none";
     game_block.style.display = "flex";
@@ -83,10 +98,11 @@ function startGame() {
     cheekMouse();
     cursor.style.backgroundImage = "url('img/cursor3.png')";
     body.style.cursor = "none";
-    // img_sound.src = "img/volume_on.png";
-    // audio.play()
+    img_sound.src = "img/volume_on.png";
+    audio.play()
 }
 
+// ------------------------------------ При завершении (проиграл)
 function endGame() {
     game_block.style.display = "none";
     endGame_block.style.display = "flex";
@@ -98,6 +114,7 @@ function endGame() {
         audio.pause()
 }
 
+// ------------------------------------ При завершении (выиграл)
 function winGame() {
     game_block.style.display = "none";
     gameWin.style.display = "flex";
@@ -108,12 +125,7 @@ function winGame() {
         audio.pause()
 }
 
-
-
-
-
-
-//-- Функция заполняет поле количеством отверстий
+//------------------ Функция заполняет поле количеством отверстий
 function fillBoard (countHole) {
     holesList = [];
     for(let i = 0; i < countHole; i++) {
@@ -126,7 +138,7 @@ function fillBoard (countHole) {
         holesList.push(hole);
     }
 }
-//========================================================================== Функция выбора цели (Джери или Спайк)
+//===================================================== Функция выбора цели (Джери или Спайк)
 function addEnemy() {
     let randomX = random(1,frequencySpike);
     // console.log(randomX);
@@ -134,7 +146,7 @@ function addEnemy() {
     else addJerry();
 }
 
-//========================================================================== Функция добавления Спайки
+//================================================================ Функция добавления Спайки
 function addSpike() {
     let spike = document.createElement("img");
     spike.id = "spike";
@@ -145,8 +157,8 @@ function addSpike() {
     animSpike(spike);
     spike.className = "act";
 }
-//========================================================================== Анимация движение Спайки
-//----- Анимация спайка лай
+//================================================================ Анимация движение Спайки
+//------------ Анимация спайка лай
 function barkSpike(spike) {
     let interval4;
     clearInterval(interval4);
@@ -156,6 +168,7 @@ function barkSpike(spike) {
         if (cntSpike > 2) cntSpike = 1;
     }, updateAnim);
 }
+// ---------- Движение картинки
 function moveSpikeUP(spike) {
     let posSpike = spike.offsetWidth * - 1;
     // console.log(posSpike);
@@ -168,19 +181,16 @@ function moveSpikeUP(spike) {
         if (posSpike >= spike.offsetWidth) {
             clearInterval(interval3);
             spike.className = "";
-            // document.getElementById('spike').parentNode.id = ""
-            // console.log(document.getElementById('spike').parentNode.id );
             spike.remove();
             addEnemy();
         }
     }, updateMove)
 }
-//----- Функция которая запускат анимацию и движение Спайка
+//----- Запуск анимации и движения спайки
 function animSpike(spike) {
     barkSpike(spike);
     moveSpikeUP(spike);
 }
-
 
 //========================================================================== Функция добавления Джери
 function addJerry() {
@@ -191,12 +201,8 @@ function addJerry() {
     if (random(1,2) == 1) animJerryLeft(jerry);      // Рандомно запускаем анимацию в разные стороны
     else animJerryRight(jerry);
     jerry.src = "img/jeri_3_1.png";
-    jerry.draggable = false;
-    // holesList[x].id = "act";
+    jerry.draggable = false;                        // запрещаем передвигать картинку при клике
     jerry.className = "act"
-    // console.log(holesList[x].id);
-    // console.dir(jerry)
-
 }
 
 //========================================================================== Анимация движение Джери влево
@@ -209,20 +215,16 @@ function runJerryLeft(jerry) {
         if (cnt >= 11) cnt = 1;
     }, updateAnim / 2.5);
 }
+
 //----- Движение картинки с анимацией влево
 function moveJerryLeft(jerry) {
     let posL = jerry.offsetWidth;
-    // console.dir(jerry);
-    // console.log(posL);
-    
     jerry.style.marginLeft = posL + "px";
     let interval2 = setInterval (function() {
         jerry.style.marginLeft = posL + "px";
         posL -= 5;
         if (posL <= (jerry.offsetWidth * -1) - 30 ) {
             clearInterval(interval2);
-            // document.getElementById('jerry').parentNode.id = ""
-            // console.log(document.getElementById('jerry').parentNode.id );
             jerry.className = "";
             posL = jerry.offsetWidth;
             jerry.remove();
@@ -230,6 +232,7 @@ function moveJerryLeft(jerry) {
         }
     }, updateMove)
 }
+
 //----- Функция которая запускат анимацию и движение влево
 function animJerryLeft(jerry) {
     runJerryLeft(jerry);
@@ -254,8 +257,6 @@ function moveJerryRight(jerry) {
         pos += 5;
         if (pos >= jerry.offsetWidth + 30) {
             clearInterval(interval2);
-            // document.getElementById('jerry').parentNode.id = ""
-            // console.log(document.getElementById('jerry').parentNode.id );
             jerry.className = "";
             pos = jerry.offsetWidth;
             jerry.remove();
@@ -263,13 +264,14 @@ function moveJerryRight(jerry) {
         }
     }, updateMove)
 }
-//----- Функция которая запускат анимацию и движение вправо
+
+//----- Запускает анимацию и движение вправо
 function animJerryRight(jerry) {
     runJerryRight(jerry);
     moveJerryRight(jerry);
 }
 
-//============================================================================ Таймер отсчета времени
+//============================================================================== Таймер отсчета времени
 function startTimer (n) {
     let timer = document.querySelector(".timer");
     let count = n;
@@ -282,25 +284,22 @@ function startTimer (n) {
         }
     }, 1000);
  }
- // =========================================================================== Жизни
- // переменная для жизней (количество жизней)
 
+// ============================================================================= Жизни
 
-// создаем функцию жизней
+// ------------   создаем функцию жизней
 function createLifes() {
     let lifesBlock = document.querySelector(".info .lifes");
-// очищать блок
     lifesBlock.innerHTML = "";
-// создаем счетчик
     let count = 1;
-// создаем цикл
-   while(count < countLifes + 1){
+    while(count < countLifes + 1){
         let span = document.createElement("span");
         lifesBlock.appendChild(span);
         count = count + 1;
    }
  }
-// создаем функцию уменьшения жизней, кликнули на собаку
+
+// -------------- уменьшения жизней, кликнули на собаку
 function lifesDown() {
     countLifes = countLifes - 1;
     if (countLifes <= 0) {
@@ -309,61 +308,33 @@ function lifesDown() {
     createLifes();
 }
 
-//============================================================================== Курсор
-
-window.addEventListener('mousemove', e => {
-    cursor.style.top = e.pageY + 'px'
-    cursor.style.left = e.pageX + 'px'
-})
-
-let cheekMouse = function() {
-    window.addEventListener('mousedown', () => {
-        cursor.classList.add('active')
-        let enemytemp = document.querySelector(".act");
-        enemytemp.addEventListener('click', () => {
-            if (enemytemp.id == "jerry") {
-                soundClickMouse();
-                score += 10;
-                scoreBoard.textContent = "Рахунок: " + score; // переопределить значение очков"
-                enemytemp.className = "";
-                enemytemp.style.display = "none";
-            } else if (enemytemp.id == "spike") {
-                soundClickDog();
-                lifesDown();
-                enemytemp.className = "";
-                enemytemp.style.display = "none";
-            }
-        })
-        soundClickEmpty()
-    })
-}
-window.addEventListener('mouseup', () => {
-    cursor.classList.remove('active')
-})
-
 //============================================================================== Звуковое сопровождение
-//музыка
-function soundClickDog() { // функция для проигрывания звука удара, используется при клике во время игры
-    var audio = new Audio(); // Создаём новый элемент Audio
-    audio.src = 'sound/dog.mp3'; // Указываем путь к звуку "клика"
+
+//------------------- Звук при попадании в спайки
+function soundClickDog() {          // функция для проигрывания звука удара, используется при клике во время игры
+    var audio = new Audio();        // Создаём новый элемент Audio
+    audio.src = 'sound/dog.mp3';    // Указываем путь к звуку "клика"
     audio.volume = 0.7;
-    audio.autoplay = true; // Автоматически запускаем
+    audio.autoplay = true;          // Автоматически запускаем
 }
-function soundClickMouse() { // функция для проигрывания звука удара, используется при клике во время игры
-    var audio = new Audio(); // Создаём новый элемент Audio
+
+//------------------- Звук при попадании в джери
+function soundClickMouse() {        // функция для проигрывания звука удара, используется при клике во время игры
+    var audio = new Audio();        // Создаём новый элемент Audio
     audio.src = 'sound/target.mp3'; // Указываем путь к звуку "клика"
     audio.volume = 0.7;
-    audio.autoplay = true; // Автоматически запускаем
+    audio.autoplay = true;          // Автоматически запускаем
 }
-function soundClickEmpty() { // функция для проигрывания звука удара, используется при клике во время игры
-    var audio = new Audio(); // Создаём новый элемент Audio
-    audio.src = 'sound/empty.mp3'; // Указываем путь к звуку "клика"
+
+//------------------- Звук при ударе молотка
+function soundClickEmpty() {        // функция для проигрывания звука удара, используется при клике во время игры
+    var audio = new Audio();        // Создаём новый элемент Audio
+    audio.src = 'sound/empty.mp3';  // Указываем путь к звуку "клика"
     audio.volume = 0.7;
-    audio.autoplay = true; // Автоматически запускаем
+    audio.autoplay = true;          // Автоматически запускаем
 }
 
-
-// ============================================================================ Функция рандом от и до включительно
+//============================================================================ Функция рандом от и до включительно
 function random(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
