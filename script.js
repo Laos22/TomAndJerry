@@ -166,8 +166,8 @@ function addSpike() {
 }
 //================================================================ Анимация движение Спайки
 //------------ Анимация спайка лай
+let interval4;
 function barkSpike(spike) {
-    let interval4;
     clearInterval(interval4);
     cntSpike = 1;
     interval4 = setInterval (function() {
@@ -176,11 +176,10 @@ function barkSpike(spike) {
     }, updateAnim);
 }
 // ---------- Движение картинки
+let interval3;
 function moveSpikeUP(spike) {
     let posSpike = spike.offsetWidth * - 1;
-    // console.log(posSpike);
     spike.style.marginLeft = posSpike + "px";
-    let interval3;
     clearInterval(interval3);
     interval3 = setInterval (function() {
         spike.style.marginLeft = posSpike + "px";
@@ -214,20 +213,24 @@ function addJerry() {
 
 //========================================================================== Анимация движение Джери влево
 //----- Анимация бегающих ног влево
+let intervalJRL;
 function runJerryLeft(jerry) {
+    clearInterval(intervalJRL);
     cnt = 1;
     jerry.style.transform = "scale(1, 1)";
-    let interval = setInterval (function() {
+    intervalJRL = setInterval (function() {
         jerry.src = "img/jeri_3_" + cnt++ +".png";
         if (cnt >= 11) cnt = 1;
     }, updateAnim / 2.5);
 }
 
 //----- Движение картинки с анимацией влево
+let interval2;
 function moveJerryLeft(jerry) {
+    clearInterval(interval2);
     let posL = jerry.offsetWidth;
     jerry.style.marginLeft = posL + "px";
-    let interval2 = setInterval (function() {
+    interval2 = setInterval (function() {
         jerry.style.marginLeft = posL + "px";
         posL -= 5;
         if (posL <= (jerry.offsetWidth * -1) - 30 ) {
@@ -246,24 +249,27 @@ function animJerryLeft(jerry) {
     moveJerryLeft(jerry);
 }
 //----- Анимация бегающих ног вправо
+let interval66;
 function runJerryRight(jerry) {
+    clearInterval(interval66);
     cnt = 1;
     jerry.style.transform = "scale(-1, 1)";
-    let interval66 = setInterval (function() {
+    interval66 = setInterval (function() {
         jerry.src = "img/jeri_3_" + cnt++ +".png";
         if (cnt >= 11) cnt = 1;
     }, updateAnim / 2.5);
 }
 //----- Движение картинки с анимацией вправо
+let interval22;
 function moveJerryRight(jerry) {
+    clearInterval(interval22);
     let pos = jerry.offsetWidth * - 1;
-    // console.log(pos);
     jerry.style.marginLeft = pos + "px";
-    let interval2 = setInterval (function() {
+    interval22 = setInterval (function() {
         jerry.style.marginLeft = pos + "px";
         pos += 5;
         if (pos >= jerry.offsetWidth + 30) {
-            clearInterval(interval2);
+            clearInterval(interval22);
             jerry.className = "";
             pos = jerry.offsetWidth;
             jerry.remove();
